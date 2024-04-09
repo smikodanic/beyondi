@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService } from 'ngboost-auth';
 
@@ -15,19 +15,20 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    @Inject('API') private API: any,
   ) { }
 
   ngOnInit() {
     this.loginFG = this.fb.group({
-      username: '',
+      email: '',
       password: ''
     });
   }
 
 
   login() {
-    const creds = this.loginFG.value; // {username: , password: }
+    const creds = this.loginFG.value; // {email: , password: }
 
     this.authService.login(creds)
       .subscribe((loggedUser: any) => {

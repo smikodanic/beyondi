@@ -87,6 +87,7 @@ module.exports.login = async (request, reply) => {
 
     delete user.password;
     const loggedUser = user;
+    loggedUser.username = loggedUser.email;
 
     // Send token in response
     reply.send({ success: true, message: 'The login was succesful', jwtToken, loggedUser });

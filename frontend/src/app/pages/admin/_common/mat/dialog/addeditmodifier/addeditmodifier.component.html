@@ -1,0 +1,88 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} modifier
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br> <small>{{ dialogInput.dialogMsg }}</small>
+  <sup style="font-size:8px">{{dialogInput.siteDoc?._id}}</sup>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Website:</label>
+      <div class="col-md-7">
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="modifier.website_id" *ngIf="dialogInput.dialogType === 'Add'" (change)="getWebsiteSegments()">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="modifier.website_id._id" *ngIf="dialogInput.dialogType === 'Edit'" (change)="getWebsiteSegments()">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website._id}} - {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Website Segment:</label>
+      <div class="col-md-5">
+        <select id="websiteSegment_id" name="websiteSegment_id" class="form-control underlined" [(ngModel)]="modifier.websiteSegment_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value=""></option>
+          <option [value]="websiteSegment._id" *ngFor="let websiteSegment of websiteSegments"> {{websiteSegment.segment_name}} /{{websiteSegment.path_regex}}/</option>
+        </select>
+        <select id="websiteSegment_id" name="websiteSegment_id" class="form-control underlined" [(ngModel)]="modifier.websiteSegment_id._id" *ngIf="dialogInput.dialogType === 'Edit'">
+          <option value=""></option>
+          <option [value]="websiteSegment._id" *ngFor="let websiteSegment of websiteSegments"> {{websiteSegment.segment_name}} /{{websiteSegment.path_regex}}/</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="action" class="col-md-3 control-label">* Action:</label>
+      <div class="col-md-5">
+        <select name="auto" class="form-control underlined" [(ngModel)]="modifier.action" (change)="formatModifierObj()">
+          <option value="remove">remove</option>
+          <option value="insert-before">insert-before</option>
+          <option value="insert-prepend">insert-prepend</option>
+          <option value="insert-append">insert-append</option>
+          <option value="insert-after">insert-after</option>
+          <option value="replace">replace</option>
+          <option value="custom">custom (define evaluate function)</option>
+          <option value="404-recognizer-corrector">404 Page Status Recognizer & Corrector</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="modifier.action !== 'custom'">
+      <label for="css_selector" class="col-md-3 control-label">* CSS Selector:</label>
+      <div class="col-md-12">
+        <input type="text" id="css_selector" name="css_selector" class="form-control underlined" [(ngModel)]="modifier.css_selector">
+      </div>
+      <p class="form-text text-muted" style="font-size:smaller;">Define CSS selector on which element to apply remove, insert, replace or 404-recognizer-corrector.</p>
+    </div>
+
+    <div class="form-group" *ngIf="modifier.action !== 'remove' && modifier.action !== '404-recognizer-corrector'">
+      <label for="elem" class="col-md-3 control-label">* Content:</label>
+      <div class="col-md-12">
+        <textarea id="elem" name="elem" class="form-control underlined" style="height:350px;border:1px solid silver;" [(ngModel)]="modifier.content"></textarea>
+      </div>
+      <p class="form-text text-muted" style="font-size:smaller;" *ngIf="modifier.action.includes('insert') || modifier.action === 'replace'">Define the HTML</p>
+      <p class="form-text text-muted" style="font-size:smaller;" *ngIf="modifier.action === 'custom'">Define the puppeteer's evaluate function (just body of the callback function)</p>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="closeMessages()">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

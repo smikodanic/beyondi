@@ -1,0 +1,90 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} rule
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br> <small>{{ dialogInput.dialogMsg }}</small>
+  <sup style="font-size:8px">{{dialogInput.siteDoc?._id}}</sup>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Website:</label>
+      <div class="col-md-7">
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="rule.website_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="rule.website_id._id" *ngIf="dialogInput.dialogType === 'Edit'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="css_selector" class="col-md-3 control-label">* CSS Selector:</label>
+      <div class="col-md-12">
+        <input type="text" id="css_selector" name="css_selector" class="form-control underlined" [(ngModel)]="rule.css_selector">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Validation Type:</label>
+      <div class="col-md-8">
+        <select name="auto" class="form-control underlined" [(ngModel)]="rule.tip" (change)="formatRuleObj()">
+          <option value="text">validate text of the HTML Element</option>
+          <option value="attribute">validate attribute of the HTML Element</option>
+          <option value="exists">check if HTML element exists</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="rule.tip === 'exists'">
+      <label for="role" class="col-md-3 control-label">Exists:</label>
+      <div class="col-md-5">
+        <select name="auto" class="form-control underlined" [(ngModel)]="rule.exists">
+          <option value="true">true</option>
+          <option value="false">false</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="rule.tip === 'attribute'">
+      <label for="attribute" class="col-md-3 control-label">Attribute:</label>
+      <div class="col-md-12">
+        <input type="text" id="attribute" name="attribute" class="form-control underlined" [(ngModel)]="rule.attribute">
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="rule.tip === 'attribute' || rule.tip === 'text'">
+      <label for="contains" class="col-md-3 control-label">Contains:</label>
+      <div class="col-md-12">
+        <input type="text" id="contains" name="contains" class="form-control underlined" [(ngModel)]="rule.contains">
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="rule.tip === 'attribute' || rule.tip === 'text'">
+      <label for="notcontains" class="col-md-3 control-label">Not Contains:</label>
+      <div class="col-md-12">
+        <input type="text" id="notcontains" name="notcontains" class="form-control underlined" [(ngModel)]="rule.notcontains">
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="dialogRef.close()">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

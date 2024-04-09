@@ -1,0 +1,86 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} Website URL
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br><small style="font-size:13px">{{ dialogInput.dialogMsg }}</small>
+  <br><small style="font-size:13px">{{dialogInput.websiteUrl?._id}}</small>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Website:</label>
+      <div class="col-md-7">
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="website_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="website_id" *ngIf="dialogInput.dialogType === 'Edit'" disabled>
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="url" class="col-md-3 control-label">* URL:</label>
+      <div class="col-md-12">
+        <input type="text" id="url" name="url" class="form-control underlined" [(ngModel)]="websiteUrl.url">
+      </div>
+    </div>
+
+    <div *ngIf="dialogInput.dialogType === 'Edit'">
+
+      <div class="form-group">
+        <label for="source" class="col-md-3 control-label">Source:</label>
+        <div class="col-md-12">
+          <input type="text" id="source" name="source" class="form-control underlined" [(ngModel)]="websiteUrl.source">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="validation_http_status" class="col-md-5 control-label">Validation HTTP Status:</label>
+        <div class="col-md-3">
+          <input type="number" id="validation_http_status" name="validation_http_status" class="form-control underlined" [(ngModel)]="websiteUrl.validation_http_status">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-12 control-label">
+          <input class="checkbox" type="checkbox" name="validation_passed" [(ngModel)]="websiteUrl.validation_passed">
+          <span>Validation Passed</span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="validation_message" class="col-md-5 control-label">Validation Message:</label>
+        <div class="col-md-12">
+          <input type="text" id="validation_message" name="validation_message" class="form-control underlined" [(ngModel)]="websiteUrl.validation_message">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="validation_counter" class="col-md-5 control-label">Validation Counter:</label>
+        <div class="col-md-3">
+          <input type="number" id="validation_counter" name="validation_counter" class="form-control underlined" [(ngModel)]="websiteUrl.validation_counter">
+        </div>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="errMsg = ''">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

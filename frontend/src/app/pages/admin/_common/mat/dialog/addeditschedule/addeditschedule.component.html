@@ -1,0 +1,141 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} schedule
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br> <small>{{ dialogInput.dialogMsg }}</small>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* User:</label>
+      <div class="col-md-5">
+        <select id="user_id" name="user_id" class="form-control underlined" [(ngModel)]="schedule.user_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value="undefined">-- select customer --</option>
+          <option [value]="user._id" *ngFor="let user of users"> {{user.last_name}} {{user.first_name}} ({{user.username}})</option>
+        </select>
+        <select id="user_id" name="user_id" class="form-control underlined" [(ngModel)]="schedule.user_id._id" *ngIf="dialogInput.dialogType === 'Edit'">
+          <option value="undefined">-- select customer --</option>
+          <option [value]="user._id" *ngFor="let user of users"> {{user.last_name}} {{user.first_name}} ({{user.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="title" class="col-md-3 control-label">* Title:</label>
+      <div class="col-md-12">
+        <input type="text" id="title" name="title" class="form-control underlined" [(ngModel)]="schedule.title">
+      </div>
+    </div>
+
+
+    <h4>CRON</h4>
+    <div class="form-group">
+      <label for="cron_span" class="col-md-3 control-label">* Cron Span:</label>
+      <div class="col-md-3">
+        <select name="cron_span" class="form-control underlined" [(ngModel)]="schedule.cron.span">
+          <option value="once">once</option>
+          <option value="every minute">every minute</option>
+          <option value="every hour">every hour</option>
+          <option value="every day">every day</option>
+          <option value="every week">every week</option>
+          <option value="every month">every month</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="form-group row" *ngIf="schedule.cron.span === 'every week'">
+      <label class="col-md-1 col-form-label">on</label>
+      <div class="col-md-3">
+        <select id="cron_weekday" name="cron.on_weekday" class="form-control" [(ngModel)]="schedule.cron.on_weekday">
+          <option value="0">Sunday</option>
+          <option value="1">Monday</option>
+          <option value="2">Tuesday</option>
+          <option value="3">Wednesday</option>
+          <option value="4">Thursday</option>
+          <option value="5">Friday</option>
+          <option value="6">Saturday</option>
+        </select>
+        <small class="form-text text-muted">week day</small>
+      </div>
+    </div>
+
+
+    <div class="form-group row">
+      <label class="col-md-1 col-form-label" *ngIf="schedule.cron.span !== 'every minute'">at</label>
+      <div class="col-md-2" *ngIf="schedule.cron.span === 'once' || schedule.cron.span === 'every hour' || schedule.cron.span === 'every day' || schedule.cron.span === 'every week' || schedule.cron.span === 'every month'">
+        <input id="cron_minute" type="number" name="cron.at_minute" class="form-control" placeholder="at minute, 0-59" [(ngModel)]="schedule.cron.at_minute">
+        <small class="form-text text-muted">minute</small>
+      </div>
+      <div class="col-md-2" *ngIf="schedule.cron.span === 'once' || schedule.cron.span === 'every day' || schedule.cron.span === 'every week' || schedule.cron.span === 'every month'">
+        <input id="cron_hour" type="number" name="cron.at_hour" class="form-control" placeholder="at hour, 0-23" [(ngModel)]="schedule.cron.at_hour">
+        <small class="form-text text-muted">hour</small>
+      </div>
+      <div class="col-md-2" *ngIf="schedule.cron.span === 'once' || schedule.cron.span === 'every month'">
+        <input id="cron_day" type="number" name="cron.at_day" class="form-control" placeholder="at day, 1-31" [(ngModel)]="schedule.cron.at_day">
+        <small class="form-text text-muted">day</small>
+      </div>
+      <div class="col-md-2" *ngIf="schedule.cron.span === 'once'">
+        <select id="cron_month" name="cron.at_month" class="form-control">
+          <option value="0">January</option>
+          <option value="1">February</option>
+          <option value="2">March</option>
+          <option value="3">April</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">August</option>
+          <option value="8">September</option>
+          <option value="9">October</option>
+          <option value="10">November</option>
+          <option value="11">December</option>
+        </select>
+        <small class="form-text text-muted">month</small>
+      </div>
+      <div class="col-md-2" *ngIf="schedule.cron.span === 'once'">
+        <input id="cron_year" type="number" name="cron.at_year" class="form-control" placeholder="at year">
+        <small class="form-text text-muted">year</small>
+      </div>
+    </div>
+
+
+    <h4>JOB</h4>
+    <div class="form-group">
+      <label for="job" class="col-md-3 control-label">* Job:</label>
+      <div class="col-md-3">
+        <select name="job" class="form-control underlined" [(ngModel)]="schedule.job">
+          <option value="scraper/sitemap">scraper/sitemap</option>
+          <option value="scraper/siteurl">scraper/siteurl</option>
+          <option value="test">test</option>
+        </select>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="job_params" class="col-md-3 control-label">Job params <small>(enter valid JSON)</small>:</label>
+      <div class="col-md-12">
+        <textarea name="job_params" class="form-control" style="width:100%;height:340px;font:15px Tahoma;color:maroon;" [(ngModel)]="schedule.job_params"></textarea>
+      </div>
+    </div>
+
+
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="errMsg = ''">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} mediator
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br><small>{{ dialogInput.dialogMsg }}</small>
+  <br><small style="font-size:13px">{{dialogInput.mediator?._id}}</small>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Website:</label>
+      <div class="col-md-9">
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="mediator.website_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="mediator.website_id._id" *ngIf="dialogInput.dialogType === 'Edit'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ip" class="col-md-3 control-label">* IP:</label>
+      <div class="col-md-5">
+        <input type="text" id="ip" name="ip" class="form-control underlined" [(ngModel)]="mediator.ip">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="port" class="col-md-3 control-label">* Port:</label>
+      <div class="col-md-3">
+        <input type="number" id="port" name="port" class="form-control underlined" [(ngModel)]="mediator.port">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="authtoken" class="col-md-3 control-label">* Authtoken:</label>
+      <div class="col-md-3">
+        <input type="string" id="authtoken" name="authtoken" class="form-control underlined" [(ngModel)]="mediator.authtoken">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="proxy_port" class="col-md-3 control-label">* Proxy Port:</label>
+      <div class="col-md-3">
+        <input type="number" id="proxy_port" name="proxy_port" class="form-control underlined" [(ngModel)]="mediator.proxy_port">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="proxy_type" class="col-md-3 control-label">Proxy Type:</label>
+      <div class="col-md-8">
+        <select name="proxy_type" class="form-control underlined" [(ngModel)]="mediator.proxy_type">
+          <option value="static">static</option>
+          <option value="dynamic">dynamic</option>
+        </select>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="errMsg = ''">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

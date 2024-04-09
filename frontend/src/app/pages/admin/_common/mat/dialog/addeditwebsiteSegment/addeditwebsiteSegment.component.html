@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} website segment
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br> <small>{{ dialogInput.dialogMsg }}</small>
+  <sup style="font-size:8px">{{dialogInput.siteDoc?._id}}</sup>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Website:</label>
+      <div class="col-md-7">
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="websiteSegment.website_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="websiteSegment.website_id._id" *ngIf="dialogInput.dialogType === 'Edit'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="segment_name" class="col-md-3 control-label">Segment Name:</label>
+      <div class="col-md-12">
+        <input type="text" id="segment_name" name="segment_name" class="form-control underlined" [(ngModel)]="websiteSegment.segment_name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="path_regex" class="col-md-3 control-label">Path regex:</label>
+      <div class="col-md-12">
+        <input type="text" id="path_regex" name="path_regex" class="form-control underlined" [(ngModel)]="websiteSegment.path_regex">
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="dialogRef.close()">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

@@ -32,22 +32,6 @@ export class HttpReq {
   }
 
 
-  defineAgentUrl(path = '', agentObj: any = {}) {
-    path = path.trim().replace(/^\//, '');
-
-    let agent_url;
-    if (this.ENV.envName === 'production') {
-      agent_url = `https://agent.prerenderproxy.com/${path}`
-    } else if (this.ENV.envName === 'development') {
-      agent_url = `https://agent.dev.prerenderproxy.com/${path}`
-    } else {
-      agent_url = `http://${agentObj.ip}:${agentObj.port}/${path}`
-    }
-
-    return agent_url;
-  }
-
-
   ask(url: string, method = 'GET', body: any, httpOptions: any) {
     method = method.toLowerCase();
 

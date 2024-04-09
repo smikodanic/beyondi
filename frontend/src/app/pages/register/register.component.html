@@ -15,8 +15,12 @@
       </header>
 
       <div class="auth-content">
-        <p class="text-center">LOGIN TO CONTINUE</p>
-        <form id="login-form" action="#" method="POST" novalidate="" [formGroup]="loginFG">
+        <p class="text-center">SIGN UP</p>
+        <form id="login-form" action="#" method="POST" novalidate="" [formGroup]="registerFG">
+          <div class="form-group">
+            <label for="name">Full name</label>
+            <input type="text" class="form-control underlined" placeholder="Your name" required formControlName="name">
+          </div>
           <div class="form-group">
             <label for="email">Email</label>
             <input type="text" class="form-control underlined" placeholder="Your email" required formControlName="email">
@@ -26,22 +30,11 @@
             <input type="password" class="form-control underlined" placeholder="Your password" required formControlName="password">
           </div>
           <div class="form-group">
-            <label for="remember">
-              <input class="checkbox" id="remember" type="checkbox">
-              <span>Remember me</span>
-            </label>
-            <a href="reset.html" class="forgot-btn pull-right">Forgot password?</a>
-          </div>
-          <div class="form-group">
-            <button type="button" class="btn btn-block btn-primary" (click)="login()">Login</button>
-          </div>
-          <div class="form-group">
-            <p class="text-muted text-center">Do not have an account?
-              <a href="/register">Sign Up!</a>
-            </p>
+            <button type="button" class="btn btn-block btn-primary" (click)="signUp()">Sign Up</button>
           </div>
           <div>
-            <p class="alert alert-warning" *ngIf="!!err && !!err.message">{{err.message}}</p>
+            <p class="alert alert-warning" *ngIf="errMsg">{{errMsg}}</p>
+            <p class="alert alert-success" *ngIf="successMsg">{{successMsg}}</p>
           </div>
         </form>
       </div>

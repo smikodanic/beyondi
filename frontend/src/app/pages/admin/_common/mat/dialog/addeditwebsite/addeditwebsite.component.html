@@ -1,0 +1,111 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} website
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br> <small>{{ dialogInput.dialogMsg }}</small>
+  <sup style="font-size:8px">{{dialogInput.siteDoc?._id}}</sup>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* User:</label>
+      <div class="col-md-7">
+        <select id="user_id" name="user_id" class="form-control underlined" [(ngModel)]="site.user_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value="undefined">-- select customer --</option>
+          <option [value]="user._id" *ngFor="let user of users"> {{user.last_name}} {{user.first_name}} ({{user.username}})</option>
+        </select>
+        <select id="user_id" name="user_id" class="form-control underlined" [(ngModel)]="site.user_id._id" *ngIf="dialogInput.dialogType === 'Edit'">
+          <option value="undefined">-- select customer --</option>
+          <option [value]="user._id" *ngFor="let user of users"> {{user.last_name}} {{user.first_name}} ({{user.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="title" class="col-md-3 control-label">* Title:</label>
+      <div class="col-md-12">
+        <input type="text" id="title" name="title" class="form-control underlined" [(ngModel)]="site.title">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="col-md-3 control-label">Description:</label>
+      <div class="col-md-12">
+        <input type="text" id="description" name="description" class="form-control underlined" [(ngModel)]="site.description">
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="protocol" class="col-md-3 control-label">Protocol:</label>
+      <div class="col-md-5">
+        <select name="protocol" class="form-control underlined" [(ngModel)]="site.protocol">
+          <option value="https:">https:</option>
+          <option value="http:">http:</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="host" class="col-md-3 control-label">* Host:</label>
+      <div class="col-md-12">
+        <input type="text" id="host" name="host" class="form-control underlined" [(ngModel)]="site.host">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="origprotocol" class="col-md-4 control-label">Original Protocol:</label>
+      <div class="col-md-5">
+        <select name="origprotocol" class="form-control underlined" [(ngModel)]="site.origprotocol">
+          <option value="https:">https:</option>
+          <option value="http:">http:</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="orighost" class="col-md-4 control-label">* Original Host:</label>
+      <div class="col-md-8">
+        <input type="text" id="orighost" name="orighost" class="form-control underlined" [(ngModel)]="site.orighost">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="sitemap_url" class="col-md-4 control-label">Sitemap URL:</label>
+      <div class="col-md-12">
+        <input type="text" id="sitemap_url" name="sitemap_url" class="form-control underlined" placeholder="http://" [(ngModel)]="site.sitemap_url">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="fastly_service_id" class="col-md-4 control-label">Fastly Service ID:</label>
+      <div class="col-md-7">
+        <input type="text" id="fastly_service_id" name="fastly_service_id" class="form-control underlined" [(ngModel)]="site.fastly_service_id">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-12 control-label">
+        <input class="checkbox" type="checkbox" name="is_active" [(ngModel)]="site.is_active">
+        <span>Is Active <small>(deactivate website)</small></span>
+      </label>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-danger" *ngIf="!!errMsg">
+      <span class="close" (click)="dialogRef.close()">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

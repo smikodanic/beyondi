@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('reflect-metadata');
 const fastify = require('fastify');
+const cors = require('@fastify/cors');
 const { createConnection } = require('typeorm');
 const app = fastify({ logger: false });
 
@@ -19,6 +20,13 @@ const start = async () => {
   }
 };
 start();
+
+
+/** CORS */
+app.register(cors, {
+  origin: '*', // Change this to your desired origin
+  methods: 'GET,POST,PUT,DELETE', // Adjust allowed methods as needed
+});
 
 
 /** routes */

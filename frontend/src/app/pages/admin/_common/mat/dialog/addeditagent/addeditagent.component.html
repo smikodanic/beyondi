@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} agent
+  <span class="close" (click)="dialogRef.close()" style="margin-top:8px">X</span>
+  <br><small>{{ dialogInput.dialogMsg }}</small>
+  <br><small style="font-size:13px">{{dialogInput.agent?._id}}</small>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Website:</label>
+      <div class="col-md-7">
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="agent.website_id" *ngIf="dialogInput.dialogType === 'Add'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+        <select id="website_id" name="website_id" class="form-control underlined" [(ngModel)]="agent.website_id._id" *ngIf="dialogInput.dialogType === 'Edit'">
+          <option value="undefined">-- select website --</option>
+          <option [value]="website._id" *ngFor="let website of websites"> {{website.title}} ({{website.user_id.username}})</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ip" class="col-md-3 control-label">* IP:</label>
+      <div class="col-md-5">
+        <input type="text" id="ip" name="ip" class="form-control underlined" [(ngModel)]="agent.ip">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="port" class="col-md-3 control-label">* Port:</label>
+      <div class="col-md-3">
+        <input type="number" id="port" name="port" class="form-control underlined" [(ngModel)]="agent.port">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="authtoken" class="col-md-3 control-label">* Auth Token:</label>
+      <div class="col-md-12">
+        <input type="text" id="authtoken" name="authtoken" class="form-control underlined" [(ngModel)]="agent.authtoken">
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogRef.close()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="errMsg = ''">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">{{successMsg}}</p>
+  </div>
+</mat-dialog-actions>

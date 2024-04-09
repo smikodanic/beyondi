@@ -1,0 +1,117 @@
+<h2 mat-dialog-title>
+  {{ dialogInput.dialogType }} user
+  <span class="close" (click)="dialogClose()" style="margin-top:8px">X</span>
+  <br><small>{{ dialogInput.dialogMsg }}</small>
+  &nbsp;<sup style="font-size:13px">{{dialogInput.user_id}}</sup>
+</h2>
+
+<mat-dialog-content>
+  <form action="#" method="POST" enctype="application/x-www-form-urlencoded" class="form-horizontal">
+
+    <div class="form-group">
+      <label for="first_name" class="col-md-3 control-label">*First name:</label>
+      <div class="col-md-12">
+        <input type="text" id="first_name" name="first_name" class="form-control underlined" [(ngModel)]="user.first_name">
+        <!-- <span class="help-block">ERR</span> -->
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="last_name" class="col-md-3 control-label">*Last name:</label>
+      <div class="col-md-12">
+        <input type="text" id="last_name" name="last_name" class="form-control underlined" [(ngModel)]="user.last_name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address" class="col-md-3 control-label">Address:</label>
+      <div class="col-md-12">
+        <input type="text" id="address" name="address" class="form-control underlined" [(ngModel)]="user.address">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="city" class="col-md-3 control-label">City:</label>
+      <div class="col-md-12">
+        <input type="text" id="city" name="city" class="form-control underlined" [(ngModel)]="user.city">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="country" class="col-md-3 control-label">Country:</label>
+      <div class="col-md-12">
+        <input type="text" id="country" name="country" class="form-control underlined" [(ngModel)]="user.country">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone" class="col-md-3 control-label">Phone:</label>
+      <div class="col-md-8">
+        <input type="text" id="phone" name="phone" class="form-control underlined" [(ngModel)]="user.phone">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="col-md-3 control-label">*Email:</label>
+      <div class="col-md-12">
+        <input type="text" id="email" name="email" class="form-control underlined" [(ngModel)]="user.email">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="website" class="col-md-3 control-label">Website:</label>
+      <div class="col-md-12">
+        <input type="text" id="website" name="website" class="form-control underlined" [(ngModel)]="user.website">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="username" class="col-md-3 control-label">* Username:</label>
+      <div class="col-md-7">
+        <input type="text" id="username" name="username" class="form-control underlined" [(ngModel)]="user.username">
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="dialogInput.dialogType === 'Add'">
+      <label for="password" class="col-md-3 control-label">* Password:</label>
+      <div class="col-md-7">
+        <input type="text" id="password" name="password" class="form-control underlined" [(ngModel)]="user.password">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="role" class="col-md-3 control-label">* Role:</label>
+      <div class="col-md-5">
+        <select name="auto" class="form-control underlined" [(ngModel)]="user.role">
+          <option value="admin">admin</option>
+          <option value="customer">customer</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label">
+        <input class="checkbox" type="checkbox" name="is_active" [(ngModel)]="user.is_active">
+        <span>Is Active</span>
+      </label>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12">
+    <button type="button" class="btn btn-primary" (click)="add()" *ngIf="dialogInput.dialogType === 'Add'">Add</button>
+    <button type="button" class="btn btn-primary" (click)="update()" *ngIf="dialogInput.dialogType === 'Edit'">Update</button>
+    <button type="button" class="btn btn-secondary" (click)="dialogClose()">Close</button>
+  </div>
+  <div class="col-md-12" style="margin-top:21px">
+    <div class="alert alert-warning" *ngIf="!!errMsg">
+      <span class="close" (click)="closeMessages()">X</span>
+      <p>{{errMsg}}</p>
+    </div>
+    <p class="alert alert-success" *ngIf="!!successMsg">
+      {{successMsg}}
+    </p>
+  </div>
+</mat-dialog-actions>
