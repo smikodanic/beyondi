@@ -1,0 +1,24 @@
+{
+  "type": "mysql",
+  "host": "localhost",
+  "port": 3306,
+  "username": "beyondiuser",
+  "password": "12345",
+  "database": "beyondi",
+  "synchronize": true,
+  "logging": false,
+  "entities": [
+    "./entities/**/*.js"
+  ],
+  "migrations": [
+    "src/migration/**/*.js"
+  ],
+  "subscribers": [
+    "src/subscriber/**/*.js"
+  ],
+  "cli": {
+    "entitiesDir": "src/entities",
+    "migrationsDir": "src/migration",
+    "subscribersDir": "src/subscriber"
+  }
+}
