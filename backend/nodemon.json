@@ -12,6 +12,7 @@
     "index.js",
     "ormconfig.json",
     "entities",
+    "lib",
     "routes"
   ],
   "env": {
